@@ -14,20 +14,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter your password'],
   },
-  /*
-  location: {
-    lat: {
-      type: Number,
-      required: [true, 'Please enter a valid latitude'],
-    },
-    long: {
-      type: Number,
-      required: [true, 'Please enter a valid longitude'],
-    },
-  },*/
   role:{
     type:String,
     default: 'client',
+  },
+  profileImgUrl:{
+    type:String,
   },
   status: {
     type: String,

@@ -17,6 +17,6 @@ bookingsRouter.post('/',createBooking);
 
 bookingsRouter.patch('/:id', bookingExists, updateBooking);
 
-bookingsRouter.patch('/:id', bookingExists, deleteBooking);
+bookingsRouter.delete('/:id', bookingExists, deleteBooking);
 
 module.exports = { bookingsRouter };

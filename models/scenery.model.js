@@ -23,14 +23,13 @@ const scenerySchema = new mongoose.Schema({
         type:Object,
         required: [true, 'Please enter your user'],     
     },
-    fildId: {
-        type:String,
-        required: [true, 'Please select fild'],
-    },
     description:{
         type:String,
         required: [true, 'Please enter your description'],
     },
+    sceneryImgUrl:{
+        type:String,
+      },
     status: {
         type: String,
         default: 'active',

@@ -1,25 +1,36 @@
 //Models 
 const { Fild } = require('../models/fild.model');
 const { Scenery } = require('../models/scenery.model');
+const { Sport } = require('../models/sport.model');
 const { AppError } = require('../utils/appError.util');
+
+const { ref, uploadBytes, getDownloadURL } = require('firebase/storage');
 
 //Utils
 const { catchAsync } = require('../utils/catchAsync.util');
-
+const { storage } = require('../utils/firebase')
 
 const createFild = catchAsync(async( req, res, next ) => {
 
-    const { nameFild, sceneryId,  busyTime, rating, status } = req.body;
+    const { nameFild, sceneryId, sportId,  fildImgUrl, rating, status } = req.body;
 
-    const sceneryExist = await Scenery.findOne({ sceneryId });
-    const busyTimeExist = await Fild.findOne( { busyTime } );
+    
+    const imgFildRef = ref(storage, `filds/${req.file.originalname}`);
+    const imgUpload = await uploadBytes(imgFildRef,req.file.buffer);
+
+
+
+    const sceneryExist = await Scenery.findById( sceneryId );
+    const sportExist = await Sport.findById( sportId );
+
+    
 
     if( !sceneryExist ){
         return next(new AppError('dont exist scenery',404));
     }
 
-    if(busyTimeExist){
-        return next(new AppError('pleace entry other Time ', 401))
+    if( !sportExist ){
+        return next(new AppError('dont exist sport',404));
     }
 
     sceneryExist.location = undefined;
@@ -28,7 +39,9 @@ const createFild = catchAsync(async( req, res, next ) => {
 
     const newFild = await Fild.create({ 
         nameFild,
-        sceneryId: sceneryExist,
+        sceneryId, 
+        sportId,
+        fildImgUrl: imgUpload.metadata.fullPath,
         rating,
     })
 
@@ -38,4 +51,18 @@ const createFild = catchAsync(async( req, res, next ) => {
     })
 });
 
-module.exports = { createFild };
+const getFildById = catchAsync(async(req, res, next) => {
+    const { fild } = req;
+
+    const imgRef = ref(storage, fild.fildImgUrl);
+    const urlFildImg = await getDownloadURL(  imgRef );
+    
+    fild.fildImgUrl = urlFildImg;
+    
+    res.status(201).json({
+        status:'success',
+        fild,
+    })
+}); 
+
+module.exports = { createFild, getFildById };

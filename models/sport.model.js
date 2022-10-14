@@ -5,10 +5,6 @@ const sportSchema = new mongoose.Schema({
         type:String,
         required: [true, 'Please enter you name sport '],
     },
-    sceneryId:{
-        type:Object,
-        required: [true, 'Please enter you scenary'],
-    },
     status: {
         type: String,
         default: 'active',

@@ -15,10 +15,6 @@ const bookingExists = catchAsync(async(req, res, next) => {
         return next(new AppError('Booking no found', 404));
     }
 
-/*     if(booking.status !== "active"){
-        return next(new AppError('Booking no found', 404));
-    } */
-
     req.booking = booking;
 
     next();
