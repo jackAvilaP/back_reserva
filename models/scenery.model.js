@@ -8,11 +8,11 @@ const scenerySchema = new mongoose.Schema({
     location: {
         lat: {
             type: Number,
-            required: [true, 'Please enter a valid latitude'],
+            //required: [true, 'Please enter a valid latitude'],
           },
           long: {
             type: Number,
-            required: [true, 'Please enter a valid longitude'],
+           // required: [true, 'Please enter a valid longitude'],
           },
     },
     rating: {

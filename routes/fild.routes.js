@@ -11,7 +11,7 @@ const { upload } = require('../utils/multer');
 
 const fildRouter = express.Router();
 
-fildRouter.post('/', upload.single('fildImg'),
+fildRouter.post('/', upload.array('fildImgs', 4),
     createFild);
 
 fildRouter.get('/findAll', getFildAll);

@@ -18,6 +18,6 @@ const fildImgSchema = new mongoose.Schema({
 
 });
 
-const fildImg = mongoose.model('fildImg', fildImgSchema);
+const FildImg = mongoose.model('FildImg', fildImgSchema);
 
-module.exports = { fildImg };
+module.exports = { FildImg };

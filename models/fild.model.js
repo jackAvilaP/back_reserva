@@ -14,10 +14,6 @@ const fildScheme = new mongoose.Schema({
         type:String,
         require: [true, 'Please enter the sportId'],
     },
-    fildImgUrl:{
-        type:String,
-        require: [true, 'Please enter the image'],
-      },
       accountPerson:{
         type: Number,
         require: [true, 'Please enter person'],
