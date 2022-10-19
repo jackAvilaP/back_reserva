@@ -1,7 +1,7 @@
 const express = require('express');
 
 //Controllers
-const { createFild, getFildById } = require('../controllers/fild.controller');
+const { createFild, getFildById, getFildAll } = require('../controllers/fild.controller');
 
 //Middlewares
 const { fildExists } = require('../middlewares/fild.middleware');
@@ -11,8 +11,10 @@ const { upload } = require('../utils/multer');
 
 const fildRouter = express.Router();
 
-fildRouter.post('/',upload.single('fildImg'),
-createFild);
+fildRouter.post('/', upload.single('fildImg'),
+    createFild);
+
+fildRouter.get('/findAll', getFildAll);
 
 fildRouter.get('/:id', fildExists, getFildById);
 
