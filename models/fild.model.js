@@ -6,7 +6,7 @@ const fildScheme = new mongoose.Schema({
     required: [true, 'Please enter you name sport '],
   },
   sceneryId: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: [true, 'Please enter you scenary'],
   },
   sportId: {
