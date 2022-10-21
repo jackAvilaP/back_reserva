@@ -28,16 +28,12 @@ const createFild = catchAsync(async (req, res, next) => {
         return next(new AppError('dont exist sport', 404));
     }
 
-    sceneryExist.location = undefined;
-    sceneryExist.user = undefined;
     sceneryExist.rating = undefined;
-
-
 
     const newFild = await Fild.create({
         nameFild,
-        sceneryId,
-        sportId,
+        sceneryId: sceneryExist,
+        sportId: sportExist,
         accountPerson,
         fildImgUrl,
         rating,
