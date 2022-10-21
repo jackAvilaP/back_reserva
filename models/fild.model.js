@@ -30,6 +30,10 @@ const fildScheme = new mongoose.Schema({
     type: Number,
     required: [true, 'Please enter your rating scenery'],
   },
+  price: {
+    type: Number,
+    required: [true, 'Please enter your price'],
+  },
   status: {
     type: String,
     default: 'active',
