@@ -22,14 +22,8 @@ const scenerySchema = new mongoose.Schema({
         type: String,
     },
     location: {
-        country: {
             type: String,
-            required: [true, 'Please enter a valid country'],
-        },
-        city: {
-            type: String,
-            //required: [true, 'Please enter a valid city'],
-        },
+            required: [true, 'Please enter a valid location'],
     },
     status: {
         type: String,
