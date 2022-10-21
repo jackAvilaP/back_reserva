@@ -15,7 +15,7 @@ const { storage } = require('../utils/firebase');
 
 const createFild = catchAsync(async (req, res, next) => {
 
-    const { nameFild, sceneryId, sportId, accountPerson, rating, price } = req.body;
+    const { nameFild, sceneryId, sportId, fildImgUrl, accountPerson, rating, status } = req.body;
 
     const sceneryExist = await Scenery.findById(sceneryId);
     const sportExist = await Sport.findById(sportId);
@@ -32,55 +32,81 @@ const createFild = catchAsync(async (req, res, next) => {
     sceneryExist.user = undefined;
     sceneryExist.rating = undefined;
 
+
+
     const newFild = await Fild.create({
         nameFild,
         sceneryId,
         sportId,
         accountPerson,
+        fildImgUrl,
         rating,
-        price
-    })
+    });
+
 
     const fildPromises = req.files.map(async file => {
 
         const imgFildRef = ref(storage, `filds/${file.originalname}`);
-
         const imgUpload = await uploadBytes(imgFildRef, file.buffer);
 
         return await FildImg.create({
             fildId: newFild._id,
-            fildUrl: imgUpload.metadata.fullPath
+            fildUrl: imgUpload.metadata.fullPath,
         })
     });
 
-    const fildResolved = await Promise.all(fildPromises);
+    await Promise.all(fildPromises);
 
     res.status(201).json({
         status: 'success',
         newFild,
-        fildResolved
-
     })
 });
 
 const getFildAll = catchAsync(async (req, res, next) => {
 
-    const findAlls = await Fild.find({});
-    const findImgAlls = await FildImg.find({})
+    const fildAlls = await Fild.find({});
+    //const fildImgAlls = await FildImg.find({ fildId });
+
+    // const fildPromises = fildAlls.map(async fildAll => {
+    //     return (fildAll.fildImgUrl)
+    // });
+
+    const fildPromises = fildAlls.map(async fildAll => {
+        console.log(fildAll._id)
+    });
+
+    // const resultPro = await Promise.all(fildPromises);
+
+
+    // const promisesFild = resultPro[0].map(async fildAll => {
+    //     const imgRef = ref(storage, fildAll.fildUrl);
+    //     fildAll.fildUrl = await getDownloadURL(imgRef);
+    //     return fildAll;
+    // });
+
+    // const fildAllsImg = await Promise.all(promisesFild);
+
+    //fildAlls.fildImgUr = undefined
+
     res.status(201).json({
         status: 'success',
-        findAlls,
-        findImgAlls
+        //resultPro
+        fildAlls
     });
 });
 
 const getFildById = catchAsync(async (req, res, next) => {
+
     const { fild } = req;
 
-    const imgRef = ref(storage, fild.fildImgUrl);
-    const urlFildImg = await getDownloadURL(imgRef);
+    const fildPromises = fild.fildImgUrl.map(async fildAll => {
+        const imgRef = ref(storage, fildAll.fildUrl);
+        fildAll.fildUrl = await getDownloadURL(imgRef);
+        return fildAll;
+    });
 
-    fild.fildImgUrl = urlFildImg;
+    await Promise.all(fildPromises);
 
     res.status(201).json({
         status: 'success',
@@ -89,4 +115,4 @@ const getFildById = catchAsync(async (req, res, next) => {
 });
 
 
-    module.exports = { createFild, getFildById, getFildAll };
+module.exports = { createFild, getFildById, getFildAll };

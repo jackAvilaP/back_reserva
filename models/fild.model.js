@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
 
 const fildScheme = new mongoose.Schema({
+
   nameFild: {
     type: String,
     required: [true, 'Please enter you name sport '],
   },
   sceneryId: {
-    type: Object,
+    type: String,
     required: [true, 'Please enter you scenary'],
   },
   sportId: {
-    type: String,
+    type: Object,
     require: [true, 'Please enter the sportId'],
   },
   accountPerson: {
@@ -21,20 +22,21 @@ const fildScheme = new mongoose.Schema({
     type: String,
     require: [true, 'Please enter description'],
   },
+  fildImgUrl: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'FildImg'
+  }],
   rating: {
     type: Number,
     required: [true, 'Please enter your rating scenery'],
-  },
-  price: {
-    type: Number,
-    required: [true, 'Please enter your price fild'],
   },
   status: {
     type: String,
     default: 'active',
   },
+
 });
 
 const Fild = mongoose.model('Fild', fildScheme);
 
-module.exports = { Fild };
+module.exports = { Fild }

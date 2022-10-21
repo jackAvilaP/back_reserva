@@ -11,7 +11,7 @@ const { fildExists } = require('../middlewares/fild.middleware');
 const { upload } = require('../utils/multer');
 
 
-fildRouter.post('/', upload.array('fildImgs', 4),createFild);
+fildRouter.post('/', upload.array('fildImgs', 2),createFild);
 
 fildRouter.get('/findAll', getFildAll);
 

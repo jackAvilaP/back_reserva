@@ -7,9 +7,8 @@ const fildImgSchema = new mongoose.Schema({
         required: [true, 'Please enter your image']
     },
     fildId:{
-        type:String,
-        required: [true, 'Please enter id fildId']
-
+        type:Object,
+    //     required: [true, 'Please enter id fildId']
     },
     status: {
         type: String,

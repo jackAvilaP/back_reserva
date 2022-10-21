@@ -5,7 +5,6 @@ const scenerySchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter you name scenery '],
     },
-
     rating: {
         type: Number,
         required: [true, 'Please enter your rating scenery'],
@@ -21,9 +20,13 @@ const scenerySchema = new mongoose.Schema({
     sceneryImgUrl: {
         type: String,
     },
-    location: {
+    country: {
         type: String,
-        required: [true, 'Please enter a valid location'],
+        required: [true, 'Please enter a valid country'],
+    },
+    city: {
+        type: String,
+        required: [true, 'Please enter a valid city'],
     },
     status: {
         type: String,

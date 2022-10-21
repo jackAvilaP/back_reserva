@@ -20,9 +20,6 @@ const createBooking = catchAsync(async( req, res, next ) => {
     const user = await User.findById(sessionUser._id);
     const fild = await Fild.findById(fildId);
 
-    const imgRef = ref(storage, fild.fildImgUrl);
-
-    const urlFild = await getDownloadURL(  imgRef );
 
     //Verificar bug
     const bookingExist = await Booking.findOne({bookingTime });

@@ -12,15 +12,35 @@ const searchFilter = catchAsync(async (req, res, next) => {
     const city = req.query.city;
     const date = req.query.date;
 
-    const bookingExists = Booking.find({
+
+    const SceneryCityExists = await Scenery.findOne({
+        city,
+    });
+
+    const SceneryCountryExists = await Scenery.findOne({
+        country,
+    });
+
+    const SportExists = await Sport.findOne({
+        nameSport,
+    });
+
+
+    const bookingExists = await Booking.findOne({
         bookingDate: date,
+    });
+    
+    if (SportExists) {
+        resultFild = await Fild.findOne({ sportId: SportExists.id })
+        console.log(resultFild);
+    }
+
+
+    //console.log(SceneryCountryExists);
+    res.status(201).json({
+        status: 'success',
+        //bookingExists
     })
-
-
-        res.status(201).json({
-            status: 'success',
-            bookingExists
-        })
 });
 
 module.exports = {
