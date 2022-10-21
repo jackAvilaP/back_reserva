@@ -1,4 +1,5 @@
 const express = require('express');
+const fildRouter = express.Router();
 
 //Controllers
 const { createFild, getFildById, getFildAll } = require('../controllers/fild.controller');
@@ -9,13 +10,13 @@ const { fildExists } = require('../middlewares/fild.middleware');
 //utlis
 const { upload } = require('../utils/multer');
 
-const fildRouter = express.Router();
 
-fildRouter.post('/', upload.array('fildImgs', 4),
-    createFild);
+fildRouter.post('/', upload.array('fildImgs', 4),createFild);
 
 fildRouter.get('/findAll', getFildAll);
 
 fildRouter.get('/:id', fildExists, getFildById);
+
+fildRouter.get('/:id')
 
 module.exports = { fildRouter };

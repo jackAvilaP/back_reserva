@@ -14,6 +14,7 @@ const { fildRouter } = require('./routes/fild.routes');
 
 // Global error controller
 const { globalErrorHandler } = require('./controllers/errors.controller');
+const { searchRouter } = require('./routes/seacrh.routes');
 
 // Init express app
 const app = express();
@@ -52,6 +53,7 @@ app.use('/api/v1/bookings', bookingsRouter);
 app.use('/api/v1/scenerys', scenerysRouter);
 app.use('/api/v1/sport', sportRouter);
 app.use('/api/v1/fild', fildRouter);
+app.use('/api/v1/search', searchRouter);
 
 // Global error handler
 app.use('*', globalErrorHandler);

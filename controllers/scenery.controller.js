@@ -12,8 +12,8 @@ const { storage } = require('../utils/firebase');
 
 const createScenery = catchAsync(async (req, res, next) => {
 
-    const { sceneryName, location: { lat, long }, description, rating } = req.body;
-
+    const { sceneryName, location: { country, city }, description, rating } = req.body;
+    
     const imgScenerysRef = ref(storage, `scenerys/${req.file.originalname}`);
     const imgScenerys = await uploadBytes(imgScenerysRef, req.file.buffer);
 
@@ -31,11 +31,12 @@ const createScenery = catchAsync(async (req, res, next) => {
 
     const newScenery = await Scenery.create({
         sceneryName,
-        location: { lat, long },
         description,
         sceneryImgUrl: imgScenerys.metadata.fullPath,
         rating,
-        user
+        user,
+        locations: { country, city }
+
     });
 
     res.status(201).json({
@@ -49,14 +50,14 @@ const createScenery = catchAsync(async (req, res, next) => {
 const getSceneryAll = catchAsync(async (req, res, next) => {
 
     const sceneryAlls = await Scenery.find({});
-    
+
     const sceneryPromises = sceneryAlls.map(async sceneryAll => {
         const imgRef = ref(storage, sceneryAll.sceneryImgUrl);
         sceneryAll.sceneryImgUrl = await getDownloadURL(imgRef);
-        return  sceneryAll;
+        return sceneryAll;
     });
 
-    const sceneryResolved = await Promise.all( sceneryPromises);
+    const sceneryResolved = await Promise.all(sceneryPromises);
 
     res.status(201).json({
         status: 'success',

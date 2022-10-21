@@ -6,37 +6,51 @@ const { catchAsync } = require("../utils/catchAsync.util");
 const { appError, AppError } = require("../utils/appError.util");
 
 
-//utils
+const createSport = catchAsync(async (req, res, next) => {
 
-
-//middleware
-
-
-const createSport = catchAsync(async( req, res, next) => {
-
-    const { nameSport, sceneryId, fildId, status } = req.body;
+    const { nameSport, sceneryId, SportId, status } = req.body;
 
     const sportExist = await Sport.findOne({ nameSport })
     const scenerySearch = await Scenery.findOne({ sceneryId })
 
-    if(sportExist){
+    if (sportExist) {
         return next(new AppError('the sport already exists', 400))
     }
 
-    if(!scenerySearch){
+    if (!scenerySearch) {
         return next(new appError('not exist scenery', 401))
     }
     const newSport = await Sport.create({
         nameSport,
-        sceneryId:scenerySearch,
+        sceneryId: scenerySearch,
         status
     });
 
-    scenerySearch.user  = undefined;
+    scenerySearch.user = undefined;
     res.status(201).json({
-        status:'success',
+        status: 'success',
         newSport
     })
 });
 
-module.exports = { createSport };
+const getSportById = catchAsync(async (req, res, next) => {
+    const { sport } = req;
+
+    res.status(201).json({
+        status: 'success',
+        sport,
+    })
+});
+
+const getSportAll = catchAsync(async (req, res, next) => {
+
+    const sportAlls = await Sport.find({});
+
+    res.status(201).json({
+        status: 'success',
+        sportAlls,
+
+    });
+})
+
+module.exports = { createSport, getSportById, getSportAll };

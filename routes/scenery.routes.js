@@ -1,4 +1,5 @@
 const express = require('express');
+const scenerysRouter = express.Router();
 
 //Controllers
 const { createScenery, getSceneryAll, getSceneryById } = require('../controllers/scenery.controller');
@@ -11,7 +12,6 @@ const { sceneryExists } = require('../middlewares/scenery.middleware');
 const { upload } = require('../utils/multer');
 
 
-const scenerysRouter = express.Router();
 
 scenerysRouter.use(protectSession);
 scenerysRouter.post('/', upload.single('sceneryImg'), createScenery);

@@ -15,7 +15,7 @@ const { storage } = require('../utils/firebase');
 
 const createFild = catchAsync(async (req, res, next) => {
 
-    const { nameFild, sceneryId, sportId, accountPerson, rating, status } = req.body;
+    const { nameFild, sceneryId, sportId, accountPerson, rating, price } = req.body;
 
     const sceneryExist = await Scenery.findById(sceneryId);
     const sportExist = await Sport.findById(sportId);
@@ -38,6 +38,7 @@ const createFild = catchAsync(async (req, res, next) => {
         sportId,
         accountPerson,
         rating,
+        price
     })
 
     const fildPromises = req.files.map(async file => {
@@ -46,9 +47,9 @@ const createFild = catchAsync(async (req, res, next) => {
 
         const imgUpload = await uploadBytes(imgFildRef, file.buffer);
 
-        return await FildImg.create({ 
-            fildId: newFild._id, 
-            fildUrl: imgUpload.metadata.fullPath 
+        return await FildImg.create({
+            fildId: newFild._id,
+            fildUrl: imgUpload.metadata.fullPath
         })
     });
 
@@ -58,9 +59,10 @@ const createFild = catchAsync(async (req, res, next) => {
         status: 'success',
         newFild,
         fildResolved
-        
+
     })
 });
+
 const getFildAll = catchAsync(async (req, res, next) => {
 
     const findAlls = await Fild.find({});
@@ -86,4 +88,5 @@ const getFildById = catchAsync(async (req, res, next) => {
     })
 });
 
-module.exports = { createFild, getFildById, getFildAll };
+
+    module.exports = { createFild, getFildById, getFildAll };
