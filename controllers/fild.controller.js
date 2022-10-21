@@ -15,7 +15,7 @@ const { storage } = require('../utils/firebase');
 
 const createFild = catchAsync(async (req, res, next) => {
 
-    const { nameFild, sceneryId, sportId, fildImgUrl, accountPerson, rating, status } = req.body;
+    const { nameFild, sceneryId, sportId, fildImgUrl, accountPerson, rating, price, status } = req.body;
 
     const sceneryExist = await Scenery.findById(sceneryId);
     const sportExist = await Sport.findById(sportId);
@@ -36,6 +36,7 @@ const createFild = catchAsync(async (req, res, next) => {
         sportId: sportExist,
         accountPerson,
         fildImgUrl,
+        price,
         rating,
     });
 
